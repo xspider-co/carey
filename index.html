@@ -27,31 +27,6 @@
     font-family: 'Jost', sans-serif;
     font-weight: 300;
     overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    background: var(--cream);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s, opacity 0.3s;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 32px;
-    height: 32px;
-    border: 0.5px solid rgba(244,241,234,0.4);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.12s ease-out, width 0.3s, height 0.3s;
   }
 
   /* Noise texture overlay */
@@ -462,9 +437,6 @@
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
 <nav>
