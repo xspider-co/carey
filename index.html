@@ -504,17 +504,48 @@
   document.querySelectorAll('#manifesto, #email-section').forEach(el => observer.observe(el));
 
   // Email submit
-  function handleSubmit() {
-    const val = document.getElementById('emailInput').value;
+  async function handleSubmit() {
+    const input = document.getElementById('emailInput');
+    const btn = document.querySelector('.email-btn');
+    const val = input.value.trim();
+
+    // Validación frontend
     if (!val || !val.includes('@')) {
-      document.getElementById('emailInput').style.borderBottomColor = 'rgba(200,122,83,0.6)';
-      setTimeout(() => {
-        document.getElementById('emailInput').style.borderBottomColor = '';
-      }, 1200);
+      input.style.borderBottomColor = 'rgba(200,122,83,0.6)';
+      setTimeout(() => { input.style.borderBottomColor = ''; }, 1200);
       return;
     }
-    document.getElementById('emailForm').style.display = 'none';
-    document.getElementById('emailSuccess').style.display = 'block';
+
+    // Estado de carga
+    btn.textContent = '···';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: val }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById('emailForm').style.display = 'none';
+        document.getElementById('emailSuccess').style.display = 'block';
+      } else {
+        // Error del servidor
+        btn.textContent = 'Unirse a la lista';
+        btn.disabled = false;
+        input.style.borderBottomColor = 'rgba(200,122,83,0.6)';
+        setTimeout(() => { input.style.borderBottomColor = ''; }, 1200);
+      }
+    } catch (err) {
+      // Error de red
+      btn.textContent = 'Unirse a la lista';
+      btn.disabled = false;
+      input.style.borderBottomColor = 'rgba(200,122,83,0.6)';
+      setTimeout(() => { input.style.borderBottomColor = ''; }, 1200);
+    }
   }
 
   // Enter key
